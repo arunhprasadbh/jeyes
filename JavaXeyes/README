@@ -1,0 +1,55 @@
+Jeyes (Java Xeyes) Project README File
+
+INTRODUCTION
+------------
+
+This is the README file for the devdaily.com Jeyes
+(Java Xeyes) project.
+
+This application is like the old X-Windows Xeyes
+application, except it's written in Java instead of C.
+
+Jeyes currently only works on the Mac OS X platform, but
+it should be able to run on a Windows or Linux system
+pretty easily, but I don't have those systems to test on,
+so I haven't made any effort to make the code cross-platform
+compatible.
+
+
+DEMO
+----
+
+The best way to learn about Jeyes is to see it in action, and
+to that end, I have some screenshots and a demo video on this
+page:
+
+  http://www.devdaily.com/mac-os-x/java-xeyes-mac-osx-app-application
+
+
+SOURCE CODE
+-----------
+
+The source code is admittedly pretty crappy. I just through this
+together to see if I could make it work. I don't have any interest
+in cleaning up the code right now, but thought I'd share it here in
+case anyone wanted to see how to do things like this with the
+Java Swing framework.
+
+
+BULDING JEYES
+-------------
+
+If you have Java and Ant installed, you can build Jeyes. Just cd 
+to the build directory, and type "ant". Or, take a look at the
+build.xml file in that directory for more information.
+
+
+MORE INFORMATION
+----------------
+
+Jeyes was created by Alvin Alexander of http://www.devdaily.com
+
+Please see the devdaily.com website for more information.
+
+
+

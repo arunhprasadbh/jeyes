@@ -1,0 +1,138 @@
+<project name="Jeyes" default="create-bundle" basedir="..">
+
+  <!-- properties: basic -->
+  <property name="build.dir"    value="build" />
+  <!-- <property file="${build.dir}/build.xml" /> -->
+  <property name="jar.dir"      value="jar" />
+  <property name="lib.dir"      value="lib" />
+  <property name="release.dir"  value="release" />
+  <property name="src.dir"      value="src" />
+  <property name="classes.dir"  value="classes" />
+  <property name="resource.dir" value="resources" />
+
+  <!-- properties: application-specific properties -->
+  <property name="jar-file-name" value="jeyes.jar" />
+  <property name="manifest-file-name" value="jeyes.manifest" />
+  <property name="mac.aboutname" value="Jeyes" />
+  
+  <!-- properties: jarbundler properties (mac-only) -->
+  <property name="jarbundler.name" value="${mac.aboutname}" />
+  <property name="jarbundler.shortname" value="${mac.aboutname}" />
+  <property name="jarbundler.signature" value="Alvin Alexander, valleyprogramming.com" />
+  <property name="jarbundler.mainclass" value="com.valleyprogramming.javaxeyes.JavaXeyes" />
+  <property name="jarbundler.icon" value="build/jeyes.icns" />
+  <property name="jarbundler.jvmversion" value="1.5+" />
+  <property name="jarbundler.version" value="0.10" />
+  <property name="jarbundler.infostring" value="valleyprogramming.com Jeyes v0.1, May, 2011" />
+  <property name="jarbundler.build" value="100" />
+  <property name="jarbundler.bundleid" value="com.valleyprogramming.javaxeyes.JavaXeyes" />
+  <property name="jarbundler.apple.laf.useScreenMenuBar" value="true"/>
+  <property name="jarbundler.apple.awt.brushMetal" value="true"/>
+  <property name="jarbundler.apple.awt.showGrowBox" value="true"/>
+  <property name="jarbundler.com.apple.mrj.application.apple.menu.about.name" value="${mac.aboutname}"/>
+  <property name="jarbundler.apple.awt.textantialiasing" value="true"/>
+ 
+  <taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" />
+	
+  <path id="class.path">
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar"/>
+      <include name="**/*.zip"/>
+    </fileset>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+  </target>
+
+  <target name="create-classes-dir" depends="init">
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${jar.dir}"/>
+    <mkdir dir="${lib.dir}"/>
+    <mkdir dir="${release.dir}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${classes.dir}"/>
+    <!-- remove all the old jars from the jar directory -->
+    <delete quiet="true">
+      <fileset dir="${jar.dir}">
+        <include name="**/*.jar"/>
+        <include name="**/*.zip"/>
+      </fileset>
+    </delete>
+    <!-- remove the old version of the app -->
+    <delete quiet="true">
+      <fileset dir="${release.dir}">
+        <include name="**/*.app"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <!-- COMPILE -->
+  <!-- compile: compile all our code to the "classes" directory -->
+  <!-- debug is off by default. see http://ant.apache.org/manual/CoreTasks/javac.html -->
+  <target name="compile" depends="clean,create-classes-dir">
+    <javac destdir="${classes.dir}" source="1.5" includeantruntime="false">
+      <src path="${src.dir}"/>
+      <exclude name="**/_*.java"/>
+      <exclude name="**/Test*.java"/>
+      <classpath refid="class.path"/>
+    </javac>
+  </target>
+
+  <!-- CREATE-JAR -->
+  <target name="create-jar" depends="compile">
+
+    <!-- copy any image/resource files in our src directories to the same "classes" directory -->
+    <copy todir="${classes.dir}">
+      <fileset dir="${src.dir}">
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.png"/>
+      </fileset>
+    </copy>
+    
+    <!-- create the jar file from our compiled classes and manifest file -->
+    <jar basedir="${classes.dir}" jarfile="${jar.dir}/${jar-file-name}" manifest="${build.dir}/${manifest-file-name}"/>
+    
+    <!-- copy any libraries our application depends on -->
+    <copy todir="${jar.dir}">
+      <fileset dir="${lib.dir}">
+        <include name="**/*.jar"/>
+        <include name="**/*.zip"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- BUNDLE -->
+  <!-- mac/jar bundle: create our mac os x bundle based on our jar file, our libraries, and these properties -->
+  <target name="create-bundle" depends="create-jar">
+    <jarbundler dir="${release.dir}"
+                name="${jarbundler.name}"
+                shortname="${jarbundler.shortname}"
+                signature="${jarbundler.signature}"
+                mainclass="${jarbundler.mainclass}" 
+                icon="${jarbundler.icon}"
+                jvmversion="${jarbundler.jvmversion}"
+                version="${jarbundler.version}"
+                infostring="${jarbundler.infostring}"
+                build="${jarbundler.build}"
+                bundleid="${jarbundler.bundleid}" >
+
+      <jarfileset dir="${jar.dir}">
+        <include name="**/*.jar" />
+        <exclude name="**/CVS" />
+      </jarfileset>
+
+      <javaproperty name="apple.laf.useScreenMenuBar" value="${jarbundler.apple.laf.useScreenMenuBar}"/>
+      <javaproperty name="apple.awt.brushMetal" value="${jarbundler.apple.awt.brushMetal}"/>
+      <javaproperty name="apple.awt.showGrowBox" value="${jarbundler.apple.awt.showGrowBox}"/>
+      <javaproperty name="apple.awt.textantialiasing" value="${jarbundler.apple.awt.textantialiasing}"/>
+    </jarbundler>
+  </target>
+
+</project>
+
+
+

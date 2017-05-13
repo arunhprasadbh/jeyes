@@ -1,0 +1,44 @@
+TODO
+
+
+o eyes should blink periodically when nothing is happening
+o let user change eye colors
+o let the user change the pupil size
+o fix eyeball location problems
+o make it "always on top"?
+
+NICETIES
+
+o create a Windows release
+o add some red lines to the eyes (user config)
+o make smoother?
+
+KEYSTROKES TO SUPPORT
+
+- make full screen
+- esc
+- quit
+- hide
+- preferences
+
+NOTES
+
+Java 2D Graphics Book
+http://oreilly.com/catalog/java2d/chapter/ch04.html
+
+
+IN VERSION 0.2
+
+- better dock icon
+- change the pupil size
+- full screen mode
+- rename to valleyprogramming
+- get About working
+- center the About dialog
+- animate an 'oh no' expression when the app is quit
+
+IN VERSION 0.1
+
+- create a mac build
+- make background transparent
+
